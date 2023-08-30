@@ -19,7 +19,7 @@ from runescape_query_engine import RuneScapeEngine
 #  the latest information on the Grand Exchange Prices
 c = RuneScapeEngine()
 
-c.autoplay_audio(r'data/Cellar_Song.ogg')
+c.autoplay_audio(r'Cellar_Song.ogg')
 
 st.data_editor(
         pd.DataFrame({"Nature Rune": [r"https://oldschool.runescape.wiki/images/Nature_rune.png"],
