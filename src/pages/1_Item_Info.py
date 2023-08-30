@@ -20,7 +20,7 @@ from runescape_query_engine import RuneScapeEngine
 #  the latest information on the Grand Exchange Prices
 c = RuneScapeEngine()
 
-c.autoplay_audio(r'Background(1).ogg')
+c.autoplay_audio(r'https://github.com/Acronine/RuneScape_App/blob/main/src/Background(1).ogg')
 
 # Creating a list of names to be used as options for the select box.
 geit_list = c.cdf.name.tolist()
