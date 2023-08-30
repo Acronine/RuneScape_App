@@ -41,6 +41,14 @@ time_start, time_end = st.select_slider(
     options=range(1,366),
     value=(1,365)
     )
+split_check = True
+if st.button("Split or Join Graphs"):
+    if split_check == True:
+        split_check = False
+    elif split_check == False:
+        split_check = True
+
+
 item_frame = df[df['name'] == select].reset_index()
 info = requests.get(
     fr"""https://prices.runescape.wiki/api/v1/osrs/timeseries?timestep={time_frame}&id={item_frame['id'][0]}""",
@@ -78,10 +86,21 @@ prices = pd.DataFrame({
     "Time": timing
 }
 )
-if select:
-    st.subheader(select)
+st.subheader(select)
+if split_check == True:
     st.line_chart(
         data=prices[time_start-1: time_end-1],
         x = 'Time',
         y = ["Average High Price", "Average Low Price"]
+    )
+elif split_check == False:
+    st.line_chart(
+        data=prices[time_start-1: time_end-1],
+        x = 'Time',
+        y = "Average High Price"
+    )
+    st.line_chart(
+        data=prices[time_start-1: time_end-1],
+        x = 'Time',
+        y = "Average Low Price"
     )
