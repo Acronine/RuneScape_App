@@ -21,7 +21,6 @@ from runescape_query_engine import RuneScapeEngine
 c = RuneScapeEngine()
 
 c.autoplay_audio(r'src/Harmony.ogg')
-
 df = c.cdf[c.cdf["ge_price"] != 0]
 df.reset_index(drop=True, inplace=True)
 
@@ -41,12 +40,7 @@ time_start, time_end = st.select_slider(
     options=range(1,366),
     value=(1,365)
     )
-split_check = True
-if st.button("Split or Join Graphs"):
-    if split_check == True:
-        split_check = False
-    elif split_check == False:
-        split_check = True
+
 
 
 item_frame = df[df['name'] == select].reset_index()
@@ -86,14 +80,15 @@ prices = pd.DataFrame({
     "Time": timing
 }
 )
+pushed = st.checkbox("Split the Graphs?")
 st.subheader(select)
-if split_check == True:
+if pushed == False:
     st.line_chart(
         data=prices[time_start-1: time_end-1],
         x = 'Time',
         y = ["Average High Price", "Average Low Price"]
     )
-elif split_check == False:
+elif pushed == True:
     st.line_chart(
         data=prices[time_start-1: time_end-1],
         x = 'Time',
