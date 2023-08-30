@@ -11,6 +11,10 @@ class RuneScapeEngine(ToMongo):
         'User-Agent': 'Initiating a class to locally query data',
         'From': "@TheFirmPenguin#8408"
         }
+    header_price = {
+        'User-Agent': 'Querying individual item prices to display to the user',
+        'From': "@TheFirmPenguin#8408"
+    }
 
     def __init__(self):
         inform = requests.get(
