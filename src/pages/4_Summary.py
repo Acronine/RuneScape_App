@@ -12,7 +12,6 @@ st.set_page_config(
         is my github: \n\rhttps://github.com/Acronine"""
     }
     )
-st.balloons()
 # Setting up the filepath to allow the app to pull from the directory.
 filepath = os.path.join(Path(__file__).parents[1])
 sys.path.insert(0, filepath)
@@ -53,3 +52,4 @@ st.text("""I would like to give a special thanks to the RuneScape Wiki team for
         on a few issues.""")
 
 st.image('https://logos-download.com/wp-content/uploads/2016/09/MongoDB_logo_Mongo_DB.png')
+st.balloons()
