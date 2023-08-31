@@ -104,7 +104,7 @@ prices = pd.DataFrame({
                       )
 # Created a toggle button to allow the user to split the two averages lines.
 # Changed to checkbox because toggle isnt fully added into Streamlit temp..
-pushed = st.checkbox("Split the Graphs?")
+pushed = st.toggle("Split the Graphs?")
 # Displays the item's name.
 st.subheader(select)
 # Setting an if statement on the toggle to either display one combined graph,
