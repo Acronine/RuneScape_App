@@ -31,15 +31,17 @@ c = RuneScapeEngine()
 c.autoplay_audio(r'src/Cellar_Song.ogg')
 # Initial table to display the current price of a nature rune to give the user
 #   a better understanding of the profit calculation
-st.data_editor(
-        pd.DataFrame({"Nature Rune": [r"https://oldschool.runescape.wiki/images/Nature_rune.png"],
-                      "Current GE Price": c.ha_price}),
-        column_config={
-            "Nature Rune": st.column_config.ImageColumn(
-                "Nature Rune", help="Shows the price for nature runes!"
-                )
-            }, hide_index=True
-)
+col1, col2 = st.columns(2)
+with col1:
+    st.data_editor(
+            pd.DataFrame({"Nature Rune": [r"https://oldschool.runescape.wiki/images/Nature_rune.png"],
+                         "Current GE Price": c.ha_price}),
+            column_config={
+                "Nature Rune": st.column_config.ImageColumn(
+                    "Nature Rune", help="Shows the price for nature runes!"
+                    )
+                }, hide_index=True
+    )
 # Queries all the items that have actually been sold recently.
 c.cdf = c.cdf[c.cdf["ge_price"] != 0]
 # Sorting the values by the High Alchemy Profit to see top payouts.
@@ -48,10 +50,11 @@ c.cdf.sort_values(by="ha_profit",
                   inplace=True)
 c.cdf.reset_index(drop=True, inplace=True)
 # Slider to select the top (#) of profitable items.
-number_shown = st.select_slider(
-    'Select the number of items you want displayed',
-    options=[10,25,50]
-    )
+with col2:
+    number_shown = st.select_slider(
+        'Select the number of items you want displayed',
+        options=[10,25,50]
+        )
 # Using the head option and sort values, we can easily pull the top items.
 df = c.cdf.head(number_shown)
 # Once the RuneScape Engine Class was initiated, the max profit can be

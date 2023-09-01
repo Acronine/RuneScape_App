@@ -49,11 +49,12 @@ st.subheader(select)
 item_frame = c.cdf[c.cdf['name'] == select].reset_index()
 # Storing item id in a variable to avoid repetitive typing.
 item_id = int(item_frame['id'][0])
-
+col1, col2 = st.columns(2)
 # Displaying an image using the url and icon value from the data frame.
 # This also displays the description under the image as a caption.
-st.image(f"{item_frame['icon'][0]}", width=180,
-            caption=item_frame['description'][0])
+with col1:
+    st.image(f"{item_frame['icon'][0]}", width=180,
+             caption=item_frame['description'][0])
 # Setting the Grand Exchange price to a variable to reduce repetitiveness.
 ge_value = int(item_frame['ge_price'][0])
 # Streamlit auto adds commas to integers, converting back removes them.
@@ -61,17 +62,18 @@ ha_value = int(item_frame["highalch"][0])
 # This is the equation for high alchemy profit
 hap_py = int(item_frame["ha_profit"][0])
 # Creating initial table for membership icon and item id.
-st.data_editor(
-    pd.DataFrame(
-        {"Members": [item_frame["members"][0]], "Item Id": f"{item_id}"}
-        ),
-    column_config={
-        "Members": st.column_config.ImageColumn(
-            "Membership only?", help="Members only item"
-            )
-        },
-    hide_index=True
-)
+with col2:
+    st.data_editor(
+        pd.DataFrame(
+            {"Members": [item_frame["members"][0]], "Item Id": f"{item_id}"}
+            ),
+        column_config={
+            "Members": st.column_config.ImageColumn(
+                "Membership only?", help="Members only item"
+                )
+            },
+        hide_index=True
+    )
 
 # Creating a second table that will display all relevant prices.
 st.dataframe(
