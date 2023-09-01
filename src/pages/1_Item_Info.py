@@ -76,19 +76,19 @@ st.data_editor(
 # Creating a second table that will display all relevant prices.
 st.dataframe(
     {
-        "Current Ge Price": f"{ge_value} gp",
-        "Price in $USD": f"${item_frame['usd_value'][0]}",
-        "High Alchemy Profit": f"{(hap_py)} gp",
-        "Vendor Price": f"{item_frame['gp_value'][0]} gp",
-        "High Alch Return": f"{ha_value} gp",
-        "Low Alch Return": f"{item_frame['lowalch'][0]} gp",
-        "Buy Limit": f"{item_frame['limit'][0]}"
+        "Current Ge Price": f"{ge_value:,} gp",
+        "Price in $USD": f"${item_frame['usd_value'][0]:,}",
+        "High Alchemy Profit": f"{(hap_py):,} gp",
+        "Vendor Price": f"{item_frame['gp_value'][0]:,} gp",
+        "High Alch Return": f"{ha_value:,} gp",
+        "Low Alch Return": f"{item_frame['lowalch'][0]:,} gp",
+        "Buy Limit": f"{item_frame['limit'][0]:,}"
     }, width=800
 )
 # This will check if there is profit to be made. it will tell the user
 # in a sentence the amount you would get buying the full limit and casting
 # high alchemy on each item.
 if (hap_py > 0) & (item_frame['limit'][0] > 0):
-    st.markdown(f"""If you were to buy {item_frame['limit'][0]} {select}
+    st.markdown(f"""If you were to buy {item_frame['limit'][0]:,} {select}
                 and cast high alchemy on each item,
-                you would make {hap_py * item_frame['limit'][0]} gp.""")
+                you would make {hap_py * item_frame['limit'][0]:,} gp.""")
