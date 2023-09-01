@@ -34,9 +34,10 @@ df.reset_index(drop=True, inplace=True)
 
 # Creating a list of names to be used as options for the select box.
 price_list = df.name.tolist()
+
 select = st.selectbox(
     'Search to see the price of any Item on the Grand Exchange over set time.',
-    options=price_list
+    options=price_list,
     )
 
 # Slider allows user to pick what 365 increments of time they want to see.
@@ -53,8 +54,13 @@ time_start, time_end = st.select_slider(
     options=range(1, 366),
     value=(1, 365)
     )
+
+# Created a toggle button to allow the user to split the two averages lines.
+pushed = st.toggle("Split the Graphs?")
+
 # Sets the single row of the data frame with that name & deletes the index.
 item_frame = df[df['name'] == select].reset_index()
+
 # With the information given, queries the data directly and stores into
 #   a variable.
 info = requests.get(
@@ -102,9 +108,6 @@ prices = pd.DataFrame({
     "Time": timing
     }
                       )
-# Created a toggle button to allow the user to split the two averages lines.
-# Changed to checkbox because toggle isnt fully added into Streamlit temp..
-pushed = st.toggle("Split the Graphs?")
 # Displays the item's name.
 st.subheader(select)
 # Setting an if statement on the toggle to either display one combined graph,
