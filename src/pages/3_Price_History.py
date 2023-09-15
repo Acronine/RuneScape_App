@@ -71,6 +71,9 @@ info = requests.get(
 avg_high = []
 avg_low = []
 timing = []
+# Creating two more lists to count volume.
+high_vol = []
+low_vol = []
 # Looping through all 365 intervals and adding the current price into the
 #   corresponding lists. In case if no item was sold during that interval,
 #   it's normally set to null. The loop will just add the previous price
@@ -101,13 +104,23 @@ for i in range(len(info["data"])):
     # This is to convert the time from Unix to date format for readability.
     stamp = datetime.utcfromtimestamp(info["data"][i]['timestamp'])
     timing.append(stamp.strftime('%d %b %Y - %H:%M'))
+    # Appending to the volume lists
+    high_vol.append(f'{info["data"][i]["highPriceVolume"]:,}')
+    low_vol.append(f'{info["data"][i]["lowPriceVolume"]:,}')
 # Setting the now filled lists into a data frame for the chart.
 prices = pd.DataFrame({
     "Average High Price": avg_high,
     "Average Low Price": avg_low,
-    "Time": timing
+    "Time": timing,
+    "High Price Volume": high_vol,
+    "Low Price Volume": low_vol
     }
                       )
+# After messing around with streamlits line chart, it appears that I'm unable
+# to add the volume to the hover over. Eventually the goal will be to add
+# either Matplotlib or plotly.express charts instead. I will be leaving
+# the added in lists for the future update.
+
 # Displays the item's name.
 st.subheader(select)
 # Setting an if statement on the toggle to either display one combined graph,
