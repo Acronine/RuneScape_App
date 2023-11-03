@@ -42,6 +42,10 @@ with col1:
                     )
                 }, hide_index=True
     )
+    # Added a toggle to show only Free to Play Items Only
+    f2p_toggle = st.toggle(
+        "Free-2-Play Items Only", value=False
+    )
 # Queries all the items that have actually been sold recently.
 c.cdf = c.cdf[c.cdf["ge_price"] != 0]
 # Sorting the values by the High Alchemy Profit to see top payouts.
@@ -55,32 +59,43 @@ with col2:
         'Select the number of items you want displayed',
         options=[10,25,50]
         )
-# Using the head option and sort values, we can easily pull the top items.
-df = c.cdf.head(number_shown)
+# Setting the Class attribute to a Data Frame variable for better
+#   functionality within Pandas.
+df = c.cdf
+# This sets a mask for the Data Frame to only show items that use the
+#   Free to Play Icon when the Free to Play toggle is selected.
+if f2p_toggle:
+    df = df[
+        df['members'] ==
+            r'https://oldschool.runescape.wiki/images/Free-to-play_icon.png'
+            ]
+margin_df = df.head(number_shown)
 # Once the RuneScape Engine Class was initiated, the max profit can be
 #   calculated. Creating a list of the values in order to be then added into
 #   the Streamlit created data frame.
-max_profit = [p*l for p, l in zip(df.ha_profit.tolist(), df.limit.tolist())]
+max_profit = [
+    p*l for p, l in zip(margin_df.ha_profit.tolist(), margin_df.limit.tolist())
+    ]
 # Creating a data frame to be displayed to the user. The column config is
 #   allow Streamlit to display the images in the column. To force the data
 #   frame to not have a scroll bar, a calculation was made to properly
 #   stretch the height accordingly. Each row is about 35 pixels and the
 #   column names' bar is 45 pixels.
 st.data_editor({
-    "Icon": df.icon.tolist(),
-    "Item Name": df.name.tolist(),
-    "GE Price": df.ge_price.tolist(),
-    "H/A Return": df.highalch.tolist(),
-    "H/Alch Profit": df.ha_profit.tolist(),
-    'Limit': df.limit.tolist(),
+    "Icon": margin_df.icon.tolist(),
+    "Item Name": margin_df.name.tolist(),
+    "GE Price": margin_df.ge_price.tolist(),
+    "H/A Return": margin_df.highalch.tolist(),
+    "H/Alch Profit": margin_df.ha_profit.tolist(),
+    'Limit': margin_df.limit.tolist(),
     "Max Profit": max_profit,
-    "Members": df.members.tolist()
+    "Members": margin_df.members.tolist()
     }, column_config={
         "Icon": st.column_config.ImageColumn(
             "Icon", help="Shows the price for nature runes!"
             ),
         "Members": st.column_config.ImageColumn(
-            "Members", help="Shows the price for nature runes!"
+            "Members", help="Gold for members and Silver for Free 2 Play!"
             )
         }, hide_index=True, width=1000, height=(number_shown*35)+45
     )

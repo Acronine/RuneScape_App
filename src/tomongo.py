@@ -1,6 +1,6 @@
 from base import Base
 import pymongo
-
+import pandas as pd
 
 class ToMongo(Base):
     """
